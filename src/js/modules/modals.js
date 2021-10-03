@@ -23,7 +23,6 @@ const modals = () => {
                 // чтобы страница под модальным окном непрокручивалась
                 document.body.style.overflow = "hidden";
                 document.body.style.marginRight = `${scroll}px`;
-                // document.body.classList.add('modal-open');   можно использовать классы bootstrap 21:22
             });
         });
         // закрытие модального окна
