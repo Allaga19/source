@@ -954,12 +954,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var modals = function modals() {
-  // создаём функцию bindModal 
+  var btnPressed = false; // создаём функцию bindModal 
   // она отвичает за привязку модального окна к определённому тригеру
   // поэтому как аргументы передаём определённые параметры:
   // triggerSelector, modalSelector, closeSelector, closeClickOverlay
+
   function bindModal(triggerSelector, modalSelector, closeSelector) {
-    var closeClickOverlay = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+    var destroy = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
     var trigger = document.querySelectorAll(triggerSelector),
         modal = document.querySelector(modalSelector),
         close = document.querySelector(closeSelector),
@@ -969,16 +970,25 @@ var modals = function modals() {
       item.addEventListener('click', function (e) {
         if (e.target) {
           e.preventDefault();
+        } // проверка был ли клик покнопкам
+
+
+        btnPressed = true;
+
+        if (destroy) {
+          item.remove();
         }
 
         windows.forEach(function (item) {
-          item.style.display = 'none';
+          item.style.display = 'none'; // добавляем класы анимация
+
+          item.classList.add('animated', 'fadeIn');
         }); // открытие модального окна
 
         modal.style.display = "block"; // чтобы страница под модальным окном непрокручивалась
 
         document.body.style.overflow = "hidden";
-        document.body.style.marginRight = "".concat(scroll, "px"); // document.body.classList.add('modal-open');   можно использовать классы bootstrap 21:22
+        document.body.style.marginRight = "".concat(scroll, "px");
       });
     }); // закрытие модального окна
 
@@ -996,7 +1006,7 @@ var modals = function modals() {
 
     modal.addEventListener('click', function (e) {
       // если элемент на который кликнули (target)сторого равен тому элементу который показывали (modal)
-      if (e.target === modal && closeClickOverlay) {
+      if (e.target === modal) {
         // когда кликаем на подложку, то закрываются все модальные окна
         windows.forEach(function (item) {
           item.style.display = 'none';
@@ -1028,6 +1038,8 @@ var modals = function modals() {
         // , то показываем то которое нужно
         document.querySelector(selector).style.display = 'block';
         document.body.style.overflow = "hidden";
+        var scroll = calcScroll();
+        document.body.style.marginRight = "".concat(scroll, "px");
       }
     }, time);
   } // чтобы страница не дёргалась при открытии и закрытии модального окна 5:30
@@ -1043,6 +1055,18 @@ var modals = function modals() {
     var scrollWidth = div.offsetWidth - div.clientWidth;
     div.remove();
     return scrollWidth;
+  } // узнаём сколько пользователь пролестал страницу
+
+
+  function openByScroll(selector) {
+    window.addEventListener('scroll', function () {
+      //  для старых браузеров включительно 12:30
+      var scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight); // если пользователь не кликнул ни на одну кнопку и долистал до конца
+
+      if (!btnPressed && window.pageYOffset + document.documentElement.clientHeight >= scrollHeight) {
+        document.querySelector(selector).click();
+      }
+    });
   } // функция с аргументами (классами) для каждого модального окна
   // bindModal('кнопка клика', 'окно которое должно открываться', 'родитель крестика и клик(крестик) закрытия окна');
 
@@ -1050,7 +1074,9 @@ var modals = function modals() {
   bindModal('.button-design', '.popup-design', '.popup-design .popup-close');
   bindModal('.button-consultation', '.popup-consultation', '.popup-consultation .popup-close'); // 9:50
 
-  showModalByTime('.popup-consultation', 5000);
+  bindModal('.fixed-gift', '.popup-gift', '.popup-gift .popup-close', true); // 4:42
+
+  openByScroll('.fixed-gift'); //  showModalByTime('.popup-consultation', 5000);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (modals);
