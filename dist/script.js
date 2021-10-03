@@ -954,8 +954,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var modals = function modals() {
-  // общий алгоритм, в который принимается, различные аргументы
-  // для этого создаём функцию bindModal 
+  // создаём функцию bindModal 
   // она отвичает за привязку модального окна к определённому тригеру
   // поэтому как аргументы передаём определённые параметры:
   // triggerSelector, modalSelector, closeSelector, closeClickOverlay
@@ -1013,16 +1012,13 @@ var modals = function modals() {
 
   function showModalByTime(selector, time) {
     setTimeout(function () {
-      // получаем модальное окно ,которое дожно выскочить и показываем его
-      // document.querySelector(selector).style.display = 'block';
-      // document.body.style.overflow = "hidden";
       var display; // получаем все модальные окна по атрибуту [data-modal] 
       // и перебираем элемент который находится в нутри
 
       document.querySelectorAll('[data-modal]').forEach(function (item) {
-        // окна которые перебираются и одно из окон работает
+        // окна которые перебираются и одно из окон работает 11:39
         if (getComputedStyle(item).display !== 'none') {
-          //  и одно из окон работает
+          //  и одно из окон показывается
           display = "block";
         }
       }); // то
@@ -1034,7 +1030,7 @@ var modals = function modals() {
         document.body.style.overflow = "hidden";
       }
     }, time);
-  } // чтобы страница недёргалась при открытии и закрытии модального окна 5:30
+  } // чтобы страница не дёргалась при открытии и закрытии модального окна 5:30
 
 
   function calcScroll() {
@@ -1048,12 +1044,13 @@ var modals = function modals() {
     div.remove();
     return scrollWidth;
   } // функция с аргументами (классами) для каждого модального окна
+  // bindModal('кнопка клика', 'окно которое должно открываться', 'родитель крестика и клик(крестик) закрытия окна');
 
 
   bindModal('.button-design', '.popup-design', '.popup-design .popup-close');
   bindModal('.button-consultation', '.popup-consultation', '.popup-consultation .popup-close'); // 9:50
 
-  showModalByTime('.popup', 6000);
+  showModalByTime('.popup-consultation', 5000);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (modals);
