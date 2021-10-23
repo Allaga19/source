@@ -1,22 +1,8 @@
-// import checkNumInputs from './checkNumInputs';
-
+import {postData} from '../services/requests';
 const forms = () => {
     const form = document.querySelectorAll('form'),
           inputs = document.querySelectorAll('input');
-        //   phoneInputs = document.querySelectorAll('input[name="user_phone"]');
 
-   //  checkNumInputs('input[name="user_phone"]');
-    /*// проверка номера телефона
-    phoneInputs.forEach(item => {
-        item.addEventListener('input', () => {
-    // получаем то что ввел пользователь, используя регулярное выражение
-    // пишем, что ищем нецыфры
-    // тоесть если пользователь пишет не число, то регулярное выражение 
-    // заменят его пустым местом, поэтому в тексте сотанутся только числа
-            item.value = item.value.replace(/\D/, '');
-
-        });
-    });*/
     //создаём объект с сообщениями
     const message = {
         loading: 'Загрузка...',
@@ -32,22 +18,10 @@ const forms = () => {
         designer: 'assets/server.php',
         question: 'assets/question.php'
     }
-    // функция которая отвечает за отправку запроса
-    const postData = async (url, data) => {
-        let res = await fetch(url, {
-            // настраиваем что должно происходить
-            method: "POST",
-            body: data
-        });
-        // await показывает js, что надо дождаться результат запроса
-        return await res.text();
-    };
+ 
     // функция очищения всех инпутов
     // переменная очистки формы
     const clearInputs = () => {
-        // берём переменную inputs, воспользуемся forEach
-        // берём каждый элемент по порядку item и получаем его атрибут value 19:15
-        // и устанавливаем в него пустую строку
         inputs.forEach(item => {
             item.value = '';
         });
