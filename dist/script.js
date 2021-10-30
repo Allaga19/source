@@ -4149,6 +4149,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_checkTextInputs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/checkTextInputs */ "./src/js/modules/checkTextInputs.js");
 /* harmony import */ var _modules_showMoreStyles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/showMoreStyles */ "./src/js/modules/showMoreStyles.js");
 /* harmony import */ var _modules_calc__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/calc */ "./src/js/modules/calc.js");
+/* harmony import */ var _modules_filter__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/filter */ "./src/js/modules/filter.js");
+
 
 
 
@@ -4169,6 +4171,7 @@ window.addEventListener('DOMContentLoaded', function () {
   Object(_modules_checkTextInputs__WEBPACK_IMPORTED_MODULE_4__["default"])('[name="message"]');
   Object(_modules_showMoreStyles__WEBPACK_IMPORTED_MODULE_5__["default"])('.button-styles', '#styles .row');
   Object(_modules_calc__WEBPACK_IMPORTED_MODULE_6__["default"])('#size', '#material', '#options', '.promocode', '.calc-price');
+  Object(_modules_filter__WEBPACK_IMPORTED_MODULE_7__["default"])();
 });
 
 /***/ }),
@@ -4248,6 +4251,101 @@ var checkTextInputs = function checkTextInputs(selector) {
 
 /***/ }),
 
+/***/ "./src/js/modules/filter.js":
+/*!**********************************!*\
+  !*** ./src/js/modules/filter.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var filter = function filter() {
+  var menu = document.querySelector('.portfolio-menu'),
+      items = menu.querySelectorAll('li'),
+      btnAll = menu.querySelector('.all'),
+      btnLovers = menu.querySelector('.lovers'),
+      btnChef = menu.querySelector('.chef'),
+      btnGirl = menu.querySelector('.girl'),
+      btnGuy = menu.querySelector('.guy'),
+      btnGrandmother = menu.querySelector('.grandmother'),
+      btnGranddad = menu.querySelector('.granddad'),
+      wrapper = document.querySelector('.portfolio-wrapper'),
+      markAll = wrapper.querySelectorAll('.all'),
+      markGirl = wrapper.querySelectorAll('.girl'),
+      markLovers = wrapper.querySelectorAll('.lovers'),
+      markChef = wrapper.querySelectorAll('.chef'),
+      markGuy = wrapper.querySelectorAll('.guy'),
+      no = document.querySelector('.portfolio-no'); // функция отвечающая за фильтрацию элементов
+
+  var typeFilter = function typeFilter(markType) {
+    // сначало скрываем все элементы
+    markAll.forEach(function (mark) {
+      // обращаемся к стилям каждого элемента и скрываем его
+      mark.style.display = 'none'; // когда элементы скрыты скрываем и анимацию
+
+      mark.classList.remove('animated', 'fadeIn');
+    }); // скрываем блок,где написано, что таких рабо ещё нет
+
+    no.style.display = "none";
+    no.classList.remove('animated', 'fadeIn'); // фильтруем блоки
+
+    if (markType) {
+      markType.forEach(function (mark) {
+        mark.style.display = 'block';
+        mark.classList.add('animated', 'fadeIn');
+      });
+    } else {
+      no.style.display = 'block';
+      no.classList.add('animated', 'fadeIn');
+    }
+  }; // кнопки по которым кликает пользователь
+
+
+  btnAll.addEventListener('click', function () {
+    typeFilter(markAll);
+  });
+  btnLovers.addEventListener('click', function () {
+    typeFilter(markLovers);
+  });
+  btnChef.addEventListener('click', function () {
+    typeFilter(markChef);
+  });
+  btnGuy.addEventListener('click', function () {
+    typeFilter(markGuy);
+  });
+  btnGirl.addEventListener('click', function () {
+    typeFilter(markGirl);
+  });
+  btnGrandmother.addEventListener('click', function () {
+    typeFilter();
+  });
+  btnGranddad.addEventListener('click', function () {
+    typeFilter();
+  }); // active 
+
+  menu.addEventListener('click', function (e) {
+    var target = e.target;
+
+    if (target && target.tagName == "LI") {
+      // удираем клас активности со все элементов
+      items.forEach(function (btn) {
+        return btn.classList.remove('active');
+      }); // добавляем класс активности выбранному элементу
+
+      target.classList.add('active');
+    }
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (filter);
+
+/***/ }),
+
 /***/ "./src/js/modules/forms.js":
 /*!*********************************!*\
   !*** ./src/js/modules/forms.js ***!
@@ -4302,7 +4400,8 @@ var forms = function forms() {
     item.addEventListener('submit', function (e) {
       // отменяем стандартное поведение браузера
       e.preventDefault(); // создаём новый блок (div), где будут помещатся сообщения которые
-      // расположены в объекте message, который будет создаваться при помощи скрипта
+      // расположены в объекте message, который
+      // будет создаваться при помощи скрипта
       // и только во время работы с формой
 
       var statusMessage = document.createElement('div'); // добавляем класс блоку
@@ -4329,12 +4428,16 @@ var forms = function forms() {
       var textMessage = document.createElement('div');
       textMessage.textContent = message.loading;
       statusMessage.appendChild(textMessage); // собираем все данные какие есть в форме
-      // создаём новую переменную formData во внутерь помещаем новый констуктор new FormData
-      // и в скопках пишем ту форму (item) из которой хотим получить данные]
+      // создаём новую переменную formData во внутерь помещаем новый
+      // констуктор new
+      // FormData и в скопках пишем ту форму (item)
+      // из которой хотим получить данные]
 
       var formData = new FormData(item); // формируем динамический путь куда будем отправлять данные
 
-      var api; // находим определённый блок(item) по определунному селектору(.popup-design) выше себя по ерархии 12:03 тоесть родителей
+      var api; // находим определённый блок(item)
+      // по определунному селектору(.popup-design)
+      // выше себя по ерархии 12:03 тоесть родителей
       // если такой родитель есть то(?) присваиваем api = path.desinger
       // если(:) нет, то отправляем api = path.question
 
