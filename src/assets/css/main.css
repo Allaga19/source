@@ -514,6 +514,7 @@ h4 {
   display: block;
   font-size: 1.9rem;
   padding: 2rem 0;
+  cursor: pointer;
 }
 .calc .promocode {
   opacity: 0.6;
@@ -524,6 +525,7 @@ h4 {
   display: block;
   font-size: 1.9rem;
   padding: 2rem 0;
+  cursor: pointer;
 }
 .calc #size {
   margin-top: 3rem;
